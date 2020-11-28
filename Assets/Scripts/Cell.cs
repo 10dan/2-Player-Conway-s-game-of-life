@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour {
 
-    enum CellState { Alive1, Alive2, Dead } //Potential states of cells. Alive1 means owned by player 1.
-    CellState state = CellState.Dead; 
+    public enum CellState { Alive1, Alive2, Dead } //Potential states of cells. Alive1 means owned by player 1.
+    public CellState state = CellState.Dead; 
 
     public bool selected = false; //Is the player hovering this cell?
     public Vector2Int pos; //Holds the x,y index of the cell.
@@ -20,17 +20,17 @@ public class Cell : MonoBehaviour {
         switch (state) {
             case CellState.Alive1:
                 if (selected) {
-                    m = cols[0];
-                } else {
                     m = cols[1];
+                } else {
+                    m = cols[0];
                 }
                 gameObject.GetComponent<MeshRenderer>().material = m;
                 break;
             case CellState.Alive2:
                 if (selected) {
-                    m = cols[2];
-                } else {
                     m = cols[3];
+                } else {
+                    m = cols[2];
                 }
                 gameObject.GetComponent<MeshRenderer>().material = m;
                 break;

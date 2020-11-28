@@ -19,8 +19,22 @@ public class BoardBehavior : MonoBehaviour {
         if (selected != null) {
             if (selected.GetComponent<Cell>() != null) {
                 Vector2Int p = selected.gameObject.GetComponent<Cell>().pos;
-                cells[p.x, p.y].selected = true;
-                print(cells[p.x, p.y].pos);
+                Cell c = cells[p.x, p.y];
+                if (Input.GetMouseButtonDown(0)) {
+                    if (c.state != Cell.CellState.Dead) {
+                        c.state = Cell.CellState.Dead;
+                    } else {
+                        c.state = Cell.CellState.Alive1;
+                    }
+                }
+                if (Input.GetMouseButtonDown(1)) {
+                    if (c.state != Cell.CellState.Dead) {
+                        c.state = Cell.CellState.Dead;
+                    } else {
+                        c.state = Cell.CellState.Alive2;
+                    }
+                }
+                c.selected = true;
             }
         }
     }
