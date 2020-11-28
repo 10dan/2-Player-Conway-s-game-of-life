@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour {
     [SerializeField] GameObject mainMenu, howToPage;
     public void ShowHowTo() {
-        mainMenu.active = false;
-        howToPage.active = true;
+        mainMenu.SetActive(false);
+        howToPage.SetActive(true);
     }
 
     public void PlayGame() {
@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void ReturnToMainMenu() {
-        mainMenu.active = true;
-        howToPage.active = false;
+        mainMenu.SetActive(true);
+        howToPage.SetActive(false);
     }
 }
