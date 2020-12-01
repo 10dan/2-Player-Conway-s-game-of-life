@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
-    [SerializeField] GameObject mainMenu, howToPage;
+    [SerializeField] GameObject mainMenu = null;
+    [SerializeField] GameObject howToPage = null;
     public void ShowHowTo() {
         mainMenu.SetActive(false);
         howToPage.SetActive(true);

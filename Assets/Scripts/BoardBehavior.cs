@@ -4,16 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardBehavior : MonoBehaviour {
-    [SerializeField] GameObject cell; //Cell prefab.
+    [SerializeField] GameObject cell = null; //Cell prefab.
     [SerializeField] int numCellsVert = 20; //Number of cells vertically.
     int numCellsHorz; //= NumCellsVert * 2;
 
-    public static bool wrapAround = true;
+    //Game settings
+    public int difficulty = 30;
+    public float cycleTime = 0.1f;//time between each simulation.
+    public int numCycles = 40;
+    public static bool wrapAround = true; //Should the cells wrap around when on edge.
     public enum GameStates { Planning, Playing, Over };
     public GameStates gameState = GameStates.Planning;
 
     //Structure that will store cells.
-    Cell[,] cells;
+    public static Cell[,] cells;
+    AIScript ai;
 
     void Start() {
         InitVariables();
@@ -21,27 +26,33 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     private void InitVariables() {
-        //Init variables.
         numCellsHorz = numCellsVert * 2;
         cells = new Cell[numCellsHorz, numCellsVert];
+        ai = new AIScript();
     }
 
     private void Update() {
         CheckForInputs();
         if (gameState == GameStates.Planning) {
-            CheckForCellSelection();
-        }
-        if (gameState == GameStates.Playing) {
-            if (Input.GetKeyDown(KeyCode.E)) {
-                UpdateBoard();
+            bool hasPlaced = CheckForCellSelection();
+            if (hasPlaced) {
+                ai.PredictNextMove(cells, difficulty);
             }
         }
 
+    }
+    IEnumerator ExecuteSimulations(int numSimulations, float waitTime) {
+        for (int i = 0; i < numSimulations; i++) {
+            yield return new WaitForSeconds(waitTime);
+            BoardConverter.UpdateCells(cells);
+        }
+        gameState = GameStates.Planning;
     }
 
     private void CheckForInputs() {
         if (Input.GetKeyDown(KeyCode.E)) {
             gameState = GameStates.Playing;
+            StartCoroutine(ExecuteSimulations(numCycles, cycleTime));
         }
         if (Input.GetKeyDown(KeyCode.R)) {
             gameState = GameStates.Planning;
@@ -49,47 +60,37 @@ public class BoardBehavior : MonoBehaviour {
         //Press C to clear.
         if (Input.GetKeyDown(KeyCode.C)) {
             gameState = GameStates.Planning;
-            foreach(Cell c in cells) {
+            foreach (Cell c in cells) {
                 c.state = Cell.CellState.Dead;
                 c.nextState = Cell.CellState.Dead;
             }
         }
     }
 
-    private void UpdateBoard() {
-        foreach(Cell c in cells) {
-            c.CalcNextState(cells);
-        }
-        foreach (Cell c in cells) {
-            c.state = c.nextState;
-        }
-    }
-
-    private void CheckForCellSelection() {
-        GameObject selected = RayCastScreen();
-        if (selected != null) {
-            if (selected.GetComponent<Cell>() != null) {
-                Vector2Int p = selected.gameObject.GetComponent<Cell>().pos;
-                Cell c = cells[p.x, p.y];
-                if (Input.GetMouseButtonDown(0)) {
-                    if (c.state != Cell.CellState.Dead) {
-                        c.state = Cell.CellState.Dead;
-                    } else {
-                        c.state = Cell.CellState.Alive1;
+    private bool CheckForCellSelection() {
+        bool hasPlaced = false;
+        if (gameState == GameStates.Planning) {
+            GameObject selected = RayCastScreen();
+            if (selected != null) {
+                if (selected.GetComponent<Cell>() != null) {
+                    Vector2Int p = selected.gameObject.GetComponent<Cell>().pos;
+                    Cell c = cells[p.x, p.y];
+                    if (p.x < numCellsHorz / 2 && gameState == GameStates.Planning) {
+                        if (Input.GetMouseButtonDown(0)) {
+                            hasPlaced = true;
+                            if (c.state != Cell.CellState.Dead) {
+                                c.state = Cell.CellState.Dead;
+                            } else {
+                                c.state = Cell.CellState.Alive1;
+                            }
+                        }
+                        c.selected = true; //Allows cell to change colour to "selected color".
                     }
                 }
-                if (Input.GetMouseButtonDown(1)) {
-                    if (c.state != Cell.CellState.Dead) {
-                        c.state = Cell.CellState.Dead;
-                    } else {
-                        c.state = Cell.CellState.Alive2;
-                    }
-                }
-                c.selected = true;
             }
         }
+        return hasPlaced;
     }
-
 
     private void PlaceCells() {
         //Calc the neccessary size for the cells.
