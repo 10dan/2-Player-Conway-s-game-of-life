@@ -6,17 +6,10 @@ public class Cell : MonoBehaviour {
 
     public enum CellState { Alive1, Alive2, Dead } //Potential states of cells. Alive1 means owned by player 1.
     public CellState state = CellState.Dead;
-    public CellState nextState = CellState.Dead;
 
     public bool selected = false; //Is the player hovering this cell?
     public Vector2Int pos; //Holds the x,y index of the cell.
     [SerializeField] Material[] cols = null; //Holds the possible colours of cells.
-
-
-    TextMesh text;
-    private void Start() {
-        text = GetComponentInChildren<TextMesh>();
-    }
 
     private void Update() {
         UpdateColour();

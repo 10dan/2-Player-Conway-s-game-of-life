@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8154401338623292626}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 930cca9c7ac839a42b36686246d079a4, type: 2}
+  - {fileID: 2100000, guid: d7ed94fe45c8a9c4e869de915cc443b6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,4 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cell: {fileID: 5728787196299686175, guid: e28f5821df1ab114198e18d5d9158c00, type: 3}
-  numCellsVert: 10
+  numCellsVert: 12
+  difficulty: 50
+  cycleTime: 0.05
+  numCycles: 50
+  gameState: 0

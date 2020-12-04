@@ -62,7 +62,6 @@ public class BoardBehavior : MonoBehaviour {
             gameState = GameStates.Planning;
             foreach (Cell c in cells) {
                 c.state = Cell.CellState.Dead;
-                c.nextState = Cell.CellState.Dead;
             }
         }
     }

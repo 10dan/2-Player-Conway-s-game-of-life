@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/PatternExplorer.unity
+    guid: 30521a6fd5543c74c9caf9f058d7d032
   m_configObjects: {}

@@ -1,0 +1,13 @@
+! Overweight emulator
+! Unknown
+! http://conwaylife.com/wiki/Overweight_emulator
+! http://conwaylife.com/patterns/overweightemulator.cells
+.......OOO.......
+.................
+..OO.O.....O.OO..
+..O...........O..
+...OO.......OO...
+OOO..OOOOOOO..OOO
+O..O.........O..O
+.OO...........OO.
+.......OOO.......
