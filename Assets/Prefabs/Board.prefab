@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cell: {fileID: 5728787196299686175, guid: e28f5821df1ab114198e18d5d9158c00, type: 3}
-  numCellsVert: 12
+  numCellsVert: 10
   difficulty: 50
   cycleTime: 0.05
   numCycles: 50
