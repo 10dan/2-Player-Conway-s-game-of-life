@@ -6,13 +6,14 @@ using UnityEngine;
 public class BoardBehavior : MonoBehaviour {
     [SerializeField] GameObject cell = null; //Cell prefab.
     [SerializeField] int numCellsVert = 20; //Number of cells vertically.
-    int numCellsHorz; //= NumCellsVert * 2;
+
 
     //Game settings
-    public int difficulty = 30;
-    public float cycleTime = 0.1f;//time between each simulation.
-    public int numCycles = 40;
-    public static bool wrapAround = true; //Should the cells wrap around when on edge.
+    private int difficulty = 0;
+    private float cycleTime = 0.1f;//time between each simulation.
+    private int numCellsHorz; //= NumCellsVert * 2;
+    private int numCycles = 40;
+    private bool wrapAround = true; //Should the cells wrap around when on edge.
     public enum GameStates { Planning, Playing, Over };
     public GameStates gameState = GameStates.Planning;
 
@@ -26,9 +27,14 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     private void InitVariables() {
+        difficulty = SettingsHolder.GetSetting("AIDifficulty");
+        cycleTime = ((float)SettingsHolder.GetSetting("TimeBetweenCycle"))/1000f;//Given in ms in settings, so divide by 1000 to get s.
+        numCellsVert = SettingsHolder.GetSetting("BoardHeight");
+        wrapAround = (SettingsHolder.GetSetting("WrapAround") == 1) ? true : false; 
         numCellsHorz = numCellsVert * 2;
         cells = new Cell[numCellsHorz, numCellsVert];
         ai = new AIScript();
+
     }
 
     private void Update() {

@@ -1,0 +1,7 @@
+AIEnabled:0
+AIDifficulty:10
+TimeBetweenCycle:100
+NumberCycles:20
+BoardHeight:6
+WrapAround:1
+BoardState:

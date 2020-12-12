@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardConverter {
+    private static bool wrapAround = true;
 
-    //Returns vector2 int
     public static int CountCells(int[,] copy, int cellType) {
         int w = copy.GetLength(0);
         int h = copy.GetLength(1);
@@ -20,6 +20,7 @@ public class BoardConverter {
     }
 
     public static int[,] PredictNextBoard(int[,] copy) {
+        wrapAround = (SettingsHolder.GetSetting("WrapAround") == 1) ? true : false;
         int w = copy.GetLength(0);
         int h = copy.GetLength(1);
         int[,] nextBoard = copy.Clone() as int[,];
@@ -42,16 +43,17 @@ public class BoardConverter {
         return nextBoard;
     }
 
+    //Returns the number of cells per team in a vector (#p1 cells, # p2 cells)
     public static Vector2Int CountNeighbours(int[,] boardIn, int x, int y) {
         int w = boardIn.GetLength(0);
         int h = boardIn.GetLength(1);
         int value1 = 0;
         int value2 = 0;
         for (var j = -1; j <= 1; j++) {
-            if (!BoardBehavior.wrapAround && y + j < 0 || y + j >= h) continue;
+            if (!wrapAround && y + j < 0 || y + j >= h) continue;
             int y1 = (y + j + h) % h;
             for (var i = -1; i <= 1; i++) {
-                if (!BoardBehavior.wrapAround && x + i < 0 || x + i >= w) continue;
+                if (!wrapAround && x + i < 0 || x + i >= w) continue;
                 int x1 = (x + i + w) % w;
                 if (boardIn[x1, y1] == 1) {
                     value1++;
@@ -69,6 +71,7 @@ public class BoardConverter {
         return new Vector2Int(value1, value2);
     }
 
+    //Convert a cell list into int array, easier to work with
     public static int[,] ConvertToInt(Cell[,] cells) {
         int w = cells.GetLength(0);
         int h = cells.GetLength(1);
