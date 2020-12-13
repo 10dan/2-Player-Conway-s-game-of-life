@@ -4,8 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadSceneScript : MonoBehaviour {
-    [SerializeField] int sceneIndex = 0;
-    public void LoadScene() {
+    public void LoadScene(int sceneIndex) {
         SceneManager.LoadScene(sceneIndex);
+    }
+
+    public void PatternButtonBehavior() {
+        SettingsHolder.UpdateSettingsBoard(BoardBehavior.cells);
+        LoadScene(2);
+    }
+
+    public void PatturnScreenBackButtonBehavior() {
+        LoadScene(1);
     }
 }

@@ -68,6 +68,5 @@ public class PreviewArea : MonoBehaviour {
         cellData = pat;
         descText = desc;
         boardUpdated = true;
-
     }
 }

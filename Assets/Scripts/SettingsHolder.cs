@@ -4,10 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class SettingsHolder {
+    private static string path = @"Assets/settings.txt";
+    public static void UpdateSettingsBoard(Cell[,] cellBoard) {
+        int[,] cells = BoardConverter.ConvertToInt(cellBoard);
+        List<string> lines = ReadSettings();
+        List<string> importantLines = new List<string>();
+        //Go through all the lines in the settings file, only copy parameters, not board.
+        foreach(string l in lines) {
+            if (l[0].Equals('-')){ //Important settings are pre marked with "-".
+                importantLines.Add(l);
+            }
+        }
+        //Convert the int[,] into a list of strings.
+        for (int y = cells.GetLength(1)-1; y >= 0; y--) {
+            string line = "";
+            for (int x = 0; x < cells.GetLength(0); x++) {
+                line += cells[x,y];
+            }
+            importantLines.Add(line);
+        }
+        //Write lines to settings file.
+        System.IO.File.WriteAllLines(path, importantLines);
+    }
+
+
     public static List<string> ReadSettings() {
         string line;
         List<string> lines = new List<string>();
-        System.IO.StreamReader file = new System.IO.StreamReader(@"Assets/settings.txt");
+        System.IO.StreamReader file = new System.IO.StreamReader(path);
         while ((line = file.ReadLine()) != null) {
             lines.Add(line);
         }
@@ -33,7 +57,7 @@ public static class SettingsHolder {
         } else {
             try {
                 value = int.Parse(stringValue);
-            }catch(Exception e) {
+            } catch (Exception e) {
                 Debug.LogError("Unable to convert setting value to int. " + e);
             }
         }

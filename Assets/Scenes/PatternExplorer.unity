@@ -573,7 +573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8387b6399e95be04db85a8e2343dfe9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneIndex: 1
 --- !u!1 &652161708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,7 +1803,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2009472253}
         m_TargetAssemblyTypeName: LoadSceneScript, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: PatturnScreenBackButtonBehavior
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1864,7 +1863,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8387b6399e95be04db85a8e2343dfe9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneIndex: 1
 --- !u!1 &2062935502
 GameObject:
   m_ObjectHideFlags: 0

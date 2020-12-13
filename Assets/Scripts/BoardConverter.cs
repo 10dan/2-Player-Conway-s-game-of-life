@@ -20,7 +20,7 @@ public class BoardConverter {
     }
 
     public static int[,] PredictNextBoard(int[,] copy) {
-        wrapAround = (SettingsHolder.GetSetting("WrapAround") == 1) ? true : false;
+        wrapAround = (SettingsHolder.GetSetting("-WrapAround") == 1) ? true : false;
         int w = copy.GetLength(0);
         int h = copy.GetLength(1);
         int[,] nextBoard = copy.Clone() as int[,];

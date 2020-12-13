@@ -43,9 +43,11 @@ public class AIScript {
                 if(finalResult[maxX, maxY] == 0) {
                     int newX = w / 2;
                     int newY = 0;
-                    while (cells[newX, newY].state != Cell.CellState.Dead) {
+                    int count = 0; //Make sure it doesnt get in an infinite loop, limit number of iterations.
+                    while ((cells[newX, newY].state != Cell.CellState.Dead)&&(count < 20)) {
                         newX = (int)Mathf.Round(UnityEngine.Random.Range(w / 2, w));
                         newY = (int)Mathf.Round(UnityEngine.Random.Range(0, h));
+                        count++;
                     }
                     maxX = newX;
                     maxY = newY;

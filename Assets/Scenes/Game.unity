@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 126346057}
         m_TargetAssemblyTypeName: LoadSceneScript, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: PatternButtonBehavior
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -268,7 +268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8387b6399e95be04db85a8e2343dfe9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneIndex: 2
 --- !u!1 &192641526
 GameObject:
   m_ObjectHideFlags: 0

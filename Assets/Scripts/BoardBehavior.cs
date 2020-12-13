@@ -14,6 +14,7 @@ public class BoardBehavior : MonoBehaviour {
     private int numCellsHorz; //= NumCellsVert * 2;
     private int numCycles = 40;
     private bool wrapAround = true; //Should the cells wrap around when on edge.
+    private bool AiEnabled = true;
     public enum GameStates { Planning, Playing, Over };
     public GameStates gameState = GameStates.Planning;
 
@@ -24,13 +25,15 @@ public class BoardBehavior : MonoBehaviour {
     void Start() {
         InitVariables();
         PlaceCells();
+        LoadCellsFromSettings();
     }
 
     private void InitVariables() {
-        difficulty = SettingsHolder.GetSetting("AIDifficulty");
-        cycleTime = ((float)SettingsHolder.GetSetting("TimeBetweenCycle"))/1000f;//Given in ms in settings, so divide by 1000 to get s.
-        numCellsVert = SettingsHolder.GetSetting("BoardHeight");
-        wrapAround = (SettingsHolder.GetSetting("WrapAround") == 1) ? true : false; 
+        difficulty = SettingsHolder.GetSetting("-AIDifficulty");
+        cycleTime = ((float)SettingsHolder.GetSetting("-TimeBetweenCycle"))/1000f;//Given in ms in settings, so divide by 1000 to get s.
+        numCellsVert = SettingsHolder.GetSetting("-BoardHeight");
+        wrapAround = (SettingsHolder.GetSetting("-WrapAround") == 1) ? true : false;
+        AiEnabled = (SettingsHolder.GetSetting("-AIEnabled") == 1) ? true : false;
         numCellsHorz = numCellsVert * 2;
         cells = new Cell[numCellsHorz, numCellsVert];
         ai = new AIScript();
@@ -42,7 +45,9 @@ public class BoardBehavior : MonoBehaviour {
         if (gameState == GameStates.Planning) {
             bool hasPlaced = CheckForCellSelection();
             if (hasPlaced) {
-                ai.PredictNextMove(cells, difficulty);
+                if (AiEnabled) {
+                    ai.PredictNextMove(cells, difficulty);
+                }
             }
         }
 
@@ -68,6 +73,29 @@ public class BoardBehavior : MonoBehaviour {
             gameState = GameStates.Planning;
             foreach (Cell c in cells) {
                 c.state = Cell.CellState.Dead;
+            }
+        }
+    }
+
+    public void LoadCellsFromSettings() {
+        List<string> settings = SettingsHolder.ReadSettings();
+        List<string> boardLines = new List<string>();
+        foreach (string line in settings) {
+            if (line[0] != '-') { // Then it's board information.
+                boardLines.Add(line);
+            }
+        }
+        //Now extract the data and apply to cell list.
+        for(int y = 0; y < boardLines.Count; y++) {
+            for(int x = 0; x < boardLines[0].Length; x++) {
+                int pos = int.Parse(boardLines[y][x].ToString());
+                if(pos == 1) {
+                    cells[x, (boardLines.Count - 1) - y].state = Cell.CellState.Alive1;
+                }else if (pos == 2) {
+                    cells[x, (boardLines.Count - 1) - y].state = Cell.CellState.Alive2;
+                } else {
+                    cells[x, (boardLines.Count-1)-y].state = Cell.CellState.Dead;
+                }
             }
         }
     }
