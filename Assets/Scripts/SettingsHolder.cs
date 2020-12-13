@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class SettingsHolder {
+
     private static string path = @"Assets/settings.txt";
+
+    public static bool patternSelected = false;
+    public static int[,] patternData;
+                   
     public static void UpdateSettingsBoard(Cell[,] cellBoard) {
         int[,] cells = BoardConverter.ConvertToInt(cellBoard);
         List<string> lines = ReadSettings();

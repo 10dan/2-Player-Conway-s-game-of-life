@@ -7,6 +7,8 @@ public class BoardBehavior : MonoBehaviour {
     [SerializeField] GameObject cell = null; //Cell prefab.
     [SerializeField] int numCellsVert = 20; //Number of cells vertically.
 
+    public enum GameStates { Planning, Playing, Over };
+    public GameStates gameState = GameStates.Planning;
 
     //Game settings
     private int difficulty = 0;
@@ -15,11 +17,11 @@ public class BoardBehavior : MonoBehaviour {
     private int numCycles = 40;
     private bool wrapAround = true; //Should the cells wrap around when on edge.
     private bool AiEnabled = true;
-    public enum GameStates { Planning, Playing, Over };
-    public GameStates gameState = GameStates.Planning;
 
     //Structure that will store cells.
     public static Cell[,] cells;
+
+    //Initiate AI.
     AIScript ai;
 
     void Start() {
@@ -29,12 +31,13 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     private void InitVariables() {
+        //Get variables from settings file for continuity between scenes.
         difficulty = SettingsHolder.GetSetting("-AIDifficulty");
         cycleTime = ((float)SettingsHolder.GetSetting("-TimeBetweenCycle"))/1000f;//Given in ms in settings, so divide by 1000 to get s.
         numCellsVert = SettingsHolder.GetSetting("-BoardHeight");
         wrapAround = (SettingsHolder.GetSetting("-WrapAround") == 1) ? true : false;
         AiEnabled = (SettingsHolder.GetSetting("-AIEnabled") == 1) ? true : false;
-        numCellsHorz = numCellsVert * 2;
+        numCellsHorz = numCellsVert * 2; //We want 2x the number of cells horizontally.
         cells = new Cell[numCellsHorz, numCellsVert];
         ai = new AIScript();
 
@@ -48,6 +51,10 @@ public class BoardBehavior : MonoBehaviour {
                 if (AiEnabled) {
                     ai.PredictNextMove(cells, difficulty);
                 }
+            }
+            if (SettingsHolder.patternSelected) {
+                //TODO: Place the pattern. So close now.
+                print(SettingsHolder.patternData);
             }
         }
 

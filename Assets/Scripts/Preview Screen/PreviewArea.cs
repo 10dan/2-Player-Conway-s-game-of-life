@@ -20,23 +20,27 @@ public class PreviewArea : MonoBehaviour {
     private void Start() {
         int[,] initPat = new int[5, 5];
         SetPattern(initPat, "***select a pattern from the list on the left to see a visual preview. ***");
+        //Make a list of generated cells so we can delete them when a new pattern is selected.
         cellsCreated = new List<GameObject>();
         t = gameObject.transform;
-        bw = t.localScale.x - t.localScale.x/15; //Board width
+        bw = t.localScale.x - t.localScale.x / 15; //Board width
         bh = t.localScale.y - t.localScale.y / 15; //Board height
     }
 
     private void Update() {
-        if (boardUpdated) {
+        if (boardUpdated) { //If they select a pattern, boardUpdated = true.
             boardUpdated = false;
+
             //Update description.
             descText = descText.Replace("!", ""); //Remove annoying ! from start.
             descTextGO.GetComponent<TextMeshProUGUI>().ClearMesh();
-            descTextGO.GetComponent<TextMeshProUGUI>().text=descText;
+            descTextGO.GetComponent<TextMeshProUGUI>().text = descText;
+
             //Remove old preview objects.
             foreach (GameObject g in cellsCreated) {
                 Destroy(g);
             }
+
             int w = cellData.GetLength(0);
             int h = cellData.GetLength(1);
             cells = new Cell[w, h];
@@ -49,8 +53,8 @@ public class PreviewArea : MonoBehaviour {
             float by = t.localPosition.y;
             for (int x = 0; x < w; x++) {
                 for (int y = 0; y < h; y++) {
-                    float xpos = (bx - bw / 2 + x * dx) + dx/2;
-                    float ypos = (by - bh / 2 + y * dy) + dy/2;
+                    float xpos = (bx - bw / 2 + x * dx) + dx / 2;
+                    float ypos = (by - bh / 2 + y * dy) + dy / 2;
                     Vector3 pos = new Vector3(xpos, ypos, -1);
                     GameObject c = Instantiate(cellPrefab, pos, Quaternion.identity);
                     cellsCreated.Add(c);
@@ -62,6 +66,9 @@ public class PreviewArea : MonoBehaviour {
                 }
             }
         }
+    }
+    public static int[,] GetCellData() {
+        return cellData;
     }
 
     public static void SetPattern(int[,] pat, string desc) {
