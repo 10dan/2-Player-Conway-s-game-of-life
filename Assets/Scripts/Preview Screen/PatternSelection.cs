@@ -23,8 +23,8 @@ public class PatternSelection : MonoBehaviour {
                 Vector2Int dims = GetDimensions(file);
 
                 //Check if the pattern is too big to fit on the board.
-                if (dims.x > SettingsHolder.GetSetting("-BoardHeight") ||
-                    (dims.y > SettingsHolder.GetSetting("-BoardHeight"))) {
+                if (dims.x > SettingsHolder.BoardHeight ||
+                    (dims.y > SettingsHolder.BoardHeight)) {
                     //Make it impossible to select this pattern.
                     instantiatedButton.GetComponent<Button>().interactable = false;
                 }

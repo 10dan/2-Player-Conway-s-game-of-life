@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,18 @@ public class Cell : MonoBehaviour {
 
     private void Update() {
         UpdateColour();
+    }
+
+    public void PlayDeathFX(CellState prevState) {
+        float scalingFactor = 0.5f; //How many times smaller the particles will be compared to parent.
+        if(prevState == CellState.Alive1) {
+            GetComponentInChildren<ParticleSystemRenderer>().material = cols[6];
+        } else {
+            GetComponentInChildren<ParticleSystemRenderer>().material = cols[7];
+        }
+        GetComponentInChildren<ParticleSystem>().transform.localScale = new Vector3
+            (this.transform.localScale.x * scalingFactor, this.transform.localScale.y * scalingFactor, this.transform.localScale.z * scalingFactor);
+        GetComponentInChildren<ParticleSystem>().Play();
     }
 
     private void UpdateColour() {

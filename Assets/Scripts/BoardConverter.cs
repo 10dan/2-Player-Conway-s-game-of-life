@@ -20,7 +20,7 @@ public class BoardConverter {
     }
 
     public static int[,] PredictNextBoard(int[,] copy) {
-        wrapAround = (SettingsHolder.GetSetting("-WrapAround") == 1) ? true : false;
+        wrapAround = SettingsHolder.WrapAround;
         int w = copy.GetLength(0);
         int h = copy.GetLength(1);
         int[,] nextBoard = copy.Clone() as int[,];
@@ -112,6 +112,9 @@ public class BoardConverter {
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 if (nextBoard[x, y] == 0) {
+                    if (cells[x, y].state != Cell.CellState.Dead) {
+                        cells[x, y].PlayDeathFX(cells[x,y].state); //Play death particle. (pass it it's prev state to set colour)
+                    }
                     cells[x, y].state = Cell.CellState.Dead;
                 } else if (nextBoard[x, y] == 1) {
                     cells[x, y].state = Cell.CellState.Alive1;

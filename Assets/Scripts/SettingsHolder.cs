@@ -9,22 +9,31 @@ public static class SettingsHolder {
 
     public static bool patternSelected = false;
     public static int[,] patternData;
-                   
+
+    public static bool AIEnabled = true;
+    public static int AIDifficulty = 10;
+    public static float TimeBetweenCycles = 0.1f;
+    public static int NumberOfCycles = 30;
+    public static int BoardHeight = 10;
+    public static bool WrapAround = true;
+
+    public static Cell[] cells;
+
     public static void UpdateSettingsBoard(Cell[,] cellBoard) {
         int[,] cells = BoardConverter.ConvertToInt(cellBoard);
         List<string> lines = ReadSettings();
         List<string> importantLines = new List<string>();
         //Go through all the lines in the settings file, only copy parameters, not board.
-        foreach(string l in lines) {
-            if (l[0].Equals('-')){ //Important settings are pre marked with "-".
+        foreach (string l in lines) {
+            if (l[0].Equals('-')) { //Important settings are pre marked with "-".
                 importantLines.Add(l);
             }
         }
         //Convert the int[,] into a list of strings.
-        for (int y = cells.GetLength(1)-1; y >= 0; y--) {
+        for (int y = cells.GetLength(1) - 1; y >= 0; y--) {
             string line = "";
             for (int x = 0; x < cells.GetLength(0); x++) {
-                line += cells[x,y];
+                line += cells[x, y];
             }
             importantLines.Add(line);
         }
@@ -44,6 +53,13 @@ public static class SettingsHolder {
         return lines;
     }
 
+
+
+
+
+
+
+    //Legacy method for loading settings.
     public static int GetSetting(string settingName) {
         string stringValue = "";
         int value = 0;

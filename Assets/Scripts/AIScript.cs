@@ -6,7 +6,7 @@ using UnityEngine;
 public class AIScript {
     private static int[,] board;
     private static int w, h;
-    public void PredictNextMove(Cell[,] cells, int difficulty) {
+    public void PredictNextMove(Cell[,] cells) {
 
         //First convert the cells into int array to make more efficient.
         w = cells.GetLength(0);
@@ -21,7 +21,7 @@ public class AIScript {
                 int[,] copy = board.Clone() as int[,];
                 if (copy[x, y] == 0) { //If a cell is empty,
                     copy[x, y] = 2; //Test what happens if you place a cell here.
-                    for (int i = 0; i < difficulty; i++) { //Difficulty is the number of cycles it predicts into.
+                    for (int i = 0; i < SettingsHolder.AIDifficulty; i++) { //Difficulty is the number of cycles it predicts into.
                         int[,] next = copy.Clone() as int[,];
                         next = BoardConverter.PredictNextBoard(copy);
                         copy = next;
