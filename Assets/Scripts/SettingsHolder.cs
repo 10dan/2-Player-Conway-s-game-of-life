@@ -7,6 +7,7 @@ public static class SettingsHolder {
 
     private static string path = @"Assets/settings.txt";
 
+    public static bool playButtonPressed = false;
     public static bool patternSelected = false;
     public static int[,] patternData;
 
@@ -16,6 +17,9 @@ public static class SettingsHolder {
     public static int NumberOfCycles = 30;
     public static int BoardHeight = 10;
     public static bool WrapAround = true;
+
+    public enum GameStates { Planning, Playing, Over };
+    public static GameStates gameState = GameStates.Planning;
 
     public static Cell[] cells;
 

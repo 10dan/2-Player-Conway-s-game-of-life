@@ -6,9 +6,6 @@ using UnityEngine;
 public class BoardBehavior : MonoBehaviour {
     [SerializeField] GameObject cell = null; //Cell prefab.
 
-    public enum GameStates { Planning, Playing, Over };
-    public GameStates gameState = GameStates.Planning;
-
     //Structure that will store cells.
     public static Cell[,] cells;
 
@@ -28,33 +25,37 @@ public class BoardBehavior : MonoBehaviour {
 
     private void Update() {
         CheckForInputs();
-        if (gameState == GameStates.Planning) {
+        if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             CheckForCellSelection();
         }
 
     }
     IEnumerator ExecuteSimulations() {
+        SettingsHolder.gameState = SettingsHolder.GameStates.Playing;
         for (int i = 0; i < SettingsHolder.NumberOfCycles; i++) {
             yield return new WaitForSeconds(SettingsHolder.TimeBetweenCycles);
             BoardConverter.UpdateCells(cells);
         }
-        gameState = GameStates.Planning;
+        SettingsHolder.gameState = SettingsHolder.GameStates.Planning;
     }
 
     private void CheckForInputs() {
         if (Input.GetKeyDown(KeyCode.E)) {
-            gameState = GameStates.Playing;
             StartCoroutine(ExecuteSimulations());
         }
         if (Input.GetKeyDown(KeyCode.R)) {
-            gameState = GameStates.Planning;
+            SettingsHolder.gameState = SettingsHolder.GameStates.Planning;
         }
         //Press C to clear.
         if (Input.GetKeyDown(KeyCode.C)) {
-            gameState = GameStates.Planning;
+            SettingsHolder.gameState = SettingsHolder.GameStates.Planning;
             foreach (Cell c in cells) {
                 c.state = Cell.CellState.Dead;
             }
+        }
+        if (SettingsHolder.playButtonPressed) {
+            SettingsHolder.playButtonPressed = false;
+            StartCoroutine(ExecuteSimulations());
         }
     }
 
@@ -82,7 +83,7 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     private void CheckForCellSelection() {
-        if (gameState == GameStates.Planning) {
+        if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             GameObject selected = RayCastScreen();
             if (selected != null) {
                 if (selected.GetComponent<Cell>() != null) { //If they mouse over a valid cell.
@@ -127,7 +128,7 @@ public class BoardBehavior : MonoBehaviour {
 
                     } else { //No pattern selected, only placing one cell.
 
-                        if (p.x < SettingsHolder.BoardHeight && gameState == GameStates.Planning) {
+                        if (p.x < SettingsHolder.BoardHeight && SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
                             if (Input.GetMouseButtonDown(0)) {
 
                                 if (c.state != Cell.CellState.Dead) {
