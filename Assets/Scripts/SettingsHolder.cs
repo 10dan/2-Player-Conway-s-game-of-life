@@ -8,10 +8,11 @@ public static class SettingsHolder {
     private static string path = @"Assets/settings.txt";
 
     public static bool playButtonPressed = false;
+    public static bool boardSizeChanged = false;
     public static bool patternSelected = false;
     public static int[,] patternData;
 
-    public static bool AIEnabled = true;
+    public static bool AIEnabled = false;
     public static int AIDifficulty = 10;
     public static float TimeBetweenCycles = 0.1f;
     public static int NumberOfCycles = 30;

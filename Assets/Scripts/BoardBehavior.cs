@@ -19,12 +19,12 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     private void InitVariables() {
-        cells = new Cell[SettingsHolder.BoardHeight*2, SettingsHolder.BoardHeight]; //2x as long as it is tall.
         ai = new AIScript();
     }
 
     private void Update() {
         CheckForInputs();
+        if (SettingsHolder.boardSizeChanged) PlaceCells();
         if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             CheckForCellSelection();
         }
@@ -148,7 +148,14 @@ public class BoardBehavior : MonoBehaviour {
         }
     }
 
-    private void PlaceCells() {
+    public void PlaceCells() {
+        //Kill old cells.
+        cells = new Cell[SettingsHolder.BoardHeight * 2, SettingsHolder.BoardHeight]; //2x as long as it is tall.
+        SettingsHolder.boardSizeChanged = false;
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("cell")) {
+            Destroy(g);
+        }
+
         //Calc the neccessary size for the cells.
         Vector3 boardSize = gameObject.transform.localScale;
         float newCellScale = (boardSize.y / SettingsHolder.BoardHeight) / 1.2f;
