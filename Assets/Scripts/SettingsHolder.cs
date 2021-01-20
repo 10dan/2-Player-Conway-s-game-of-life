@@ -19,6 +19,8 @@ public static class SettingsHolder {
     public static int BoardHeight = 10;
     public static bool WrapAround = true;
 
+    public static bool playerOneTurn = true;
+
     public enum GameStates { Planning, Playing, Over };
     public static GameStates gameState = GameStates.Planning;
 

@@ -83,6 +83,17 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     private void CheckForCellSelection() {
+        //If AI is not enabled, we assume it is in HOTSEAT mode.
+        if (SettingsHolder.AIEnabled == false) {
+            RunHotseatSelection();
+        } else { //AI is enabled.
+            SettingsHolder.playerOneTurn = true; //Make sure it's always player ones turn if vs ai.
+            RunAISelection();
+        }
+
+    }
+
+    private void RunAISelection() {
         if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             GameObject selected = RayCastScreen();
             if (selected != null) {
@@ -94,6 +105,7 @@ public class BoardBehavior : MonoBehaviour {
                         int[,] pattern = SettingsHolder.patternData;
                         int endX = p.x + pattern.GetLength(0) - 1; //The positions of the end dimensions of pattern.
                         int endY = p.y - pattern.GetLength(1) + 1;
+
                         if ((endX < SettingsHolder.BoardHeight) && (endY >= 0)) {
                             for (int x = p.x; x <= endX; x++) {
                                 for (int y = p.y; y >= endY; y--) {
@@ -104,7 +116,7 @@ public class BoardBehavior : MonoBehaviour {
                                 SettingsHolder.patternSelected = false;
                                 int livingCellsInPattern = 0; //Give AI this many times to have their go.
                                 for (int x = 0; x < pattern.GetLength(0); x++) {
-                                    for (int y = pattern.GetLength(1)-1; y >= 0; y--) {
+                                    for (int y = pattern.GetLength(1) - 1; y >= 0; y--) {
                                         int cx = p.x + x; //Current x 
                                         int cy = p.y - y; //Current y
                                         if (pattern[x, y] == 1) {
@@ -116,7 +128,7 @@ public class BoardBehavior : MonoBehaviour {
                                     }
                                 }
                                 if (SettingsHolder.AIEnabled) {
-                                    for(int i = 0; i < livingCellsInPattern; i++) {
+                                    for (int i = 0; i < livingCellsInPattern; i++) {
                                         ai.PredictNextMove(cells);
                                     }
                                 }
@@ -148,6 +160,114 @@ public class BoardBehavior : MonoBehaviour {
         }
     }
 
+    private void RunHotseatSelection() {
+        if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
+            GameObject selected = RayCastScreen();
+            if (selected != null) {
+                if (selected.GetComponent<Cell>() != null) { //If they mouse over a valid cell.
+
+                    Vector2Int p = selected.gameObject.GetComponent<Cell>().pos;
+                    Cell c = cells[p.x, p.y];
+
+                    //Assign the enum cellstate to whoevers turn it is.
+                    Cell.CellState activePlayer = Cell.CellState.Dead;
+                    if (SettingsHolder.playerOneTurn) {
+                        activePlayer = Cell.CellState.Alive1;
+                    } else {
+                        activePlayer = Cell.CellState.Alive2;
+                    }
+
+
+                    if (SettingsHolder.patternSelected) { //If they have just selected a pattern from list.
+                        int[,] pattern = SettingsHolder.patternData;
+                        int endX = p.x + pattern.GetLength(0) - 1; //The positions of the end dimensions of pattern.
+                        int endY = p.y - pattern.GetLength(1) + 1;
+
+                        if (SettingsHolder.playerOneTurn) { //Player ones turn, must restrict to left.
+                            if ((endX < SettingsHolder.BoardHeight) && (endY >= 0)) {
+                                for (int x = p.x; x <= endX; x++) {
+                                    for (int y = p.y; y >= endY; y--) {
+                                        cells[x, y].selected = true;
+                                    }
+                                }
+                                if (Input.GetMouseButtonDown(0)) {
+                                    SettingsHolder.patternSelected = false;
+                                    for (int x = 0; x < pattern.GetLength(0); x++) {
+                                        for (int y = pattern.GetLength(1) - 1; y >= 0; y--) {
+                                            int cx = p.x + x; //Current x 
+                                            int cy = p.y - y; //Current y
+                                            if (pattern[x, y] == 1) {
+                                                cells[cx, cy].state = activePlayer;
+                                            } else {
+                                                cells[cx, cy].state = Cell.CellState.Dead;
+                                            }
+                                        }
+                                    }
+                                    SettingsHolder.playerOneTurn = false;
+                                }
+                            }
+                        } else {//Player 2 turn.
+                            if ((endX <= SettingsHolder.BoardHeight*2) && (endY >= 0)) {
+                                for (int x = p.x; x <= endX; x++) {
+                                    for (int y = p.y; y >= endY; y--) {
+                                        cells[x, y].selected = true;
+                                    }
+                                }
+                                if (Input.GetMouseButtonDown(0)) {
+                                    SettingsHolder.patternSelected = false;
+                                    for (int x = 0; x < pattern.GetLength(0); x++) {
+                                        for (int y = pattern.GetLength(1) - 1; y >= 0; y--) {
+                                            int cx = p.x + x; //Current x 
+                                            int cy = p.y - y; //Current y
+                                            if (pattern[x, y] == 1) {
+                                                cells[cx, cy].state = activePlayer;
+                                            } else {
+                                                cells[cx, cy].state = Cell.CellState.Dead;
+                                            }
+                                        }
+                                    }
+                                    SettingsHolder.playerOneTurn = true;
+                                }
+                            }
+
+                        }
+
+                        if (Input.GetMouseButtonDown(1)) { //They decide not to place a cell.
+                            SettingsHolder.patternSelected = false;
+                        }
+
+                    } else { //No pattern selected, only placing one cell.
+                        if (SettingsHolder.playerOneTurn) { //Player ones turn.
+                            if (p.x < SettingsHolder.BoardHeight) {
+                                if (Input.GetMouseButtonDown(0)) {
+                                    if (c.state != Cell.CellState.Dead) {
+                                        c.state = Cell.CellState.Dead;
+                                    } else {
+                                        c.state = activePlayer;
+                                    }
+                                    SettingsHolder.playerOneTurn = false;
+                                }
+                                c.selected = true; //Allows cell to change colour to "selected color".
+                            }
+                        } else { //Player 2 turn.
+                            if (p.x >= SettingsHolder.BoardHeight) {
+                                if (Input.GetMouseButtonDown(0)) {
+                                    if (c.state != Cell.CellState.Dead) {
+                                        c.state = Cell.CellState.Dead;
+                                    } else {
+                                        c.state = activePlayer;
+                                    }
+                                    SettingsHolder.playerOneTurn = true;
+                                }
+                                c.selected = true; //Allows cell to change colour to "selected color".
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void PlaceCells() {
         //Kill old cells.
         cells = new Cell[SettingsHolder.BoardHeight * 2, SettingsHolder.BoardHeight]; //2x as long as it is tall.
@@ -164,7 +284,7 @@ public class BoardBehavior : MonoBehaviour {
 
         //Place the cells onto the board
         float d = boardSize.y / SettingsHolder.BoardHeight; //Distance between cells
-        for (int x = 0; x < SettingsHolder.BoardHeight*2; x++) {
+        for (int x = 0; x < SettingsHolder.BoardHeight * 2; x++) {
             for (int y = 0; y < SettingsHolder.BoardHeight; y++) {
                 GameObject createdCell = Instantiate(cell, new Vector3(d / 2 + x * d, d / 2 + y * d, 0f), Quaternion.identity);
                 cells[x, y] = createdCell.GetComponent<Cell>();
