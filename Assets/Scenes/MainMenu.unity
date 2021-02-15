@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 6181550}
   - component: {fileID: 6181549}
   - component: {fileID: 6181553}
+  - component: {fileID: 6181554}
   m_Layer: 5
   m_Name: MenuHolder
   m_TagString: Untagged
@@ -191,7 +192,7 @@ Canvas:
   m_GameObject: {fileID: 6181548}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -238,6 +239,102 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 1197857938}
   howToPage: {fileID: 77239913}
+--- !u!82 &6181554
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6181548}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9ad374f8f2ebf1d4d96f6a2f4ab49938, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.399
+  m_Pitch: 1.27
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &59233756
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,11 +367,11 @@ RectTransform:
   m_Children:
   - {fileID: 87847274}
   m_Father: {fileID: 77239914}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -205}
+  m_AnchoredPosition: {x: -0.0019531, y: -241}
   m_SizeDelta: {x: 204.37, y: 60.115936}
   m_Pivot: {x: 0.50000006, y: 0.49999994}
 --- !u!114 &59233758
@@ -297,7 +394,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_NormalColor: {r: 1, g: 0.3443396, b: 0.3443396, a: 0.57254905}
     m_HighlightedColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.2627451}
     m_PressedColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
     m_SelectedColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 0.31764707}
@@ -399,6 +496,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1748376887}
   - {fileID: 924890764}
   - {fileID: 59233757}
   - {fileID: 1274886813}
@@ -430,7 +528,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 188f59eeea1aa484a8512aec445cda78, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d41db670a2d66d74594d13797442c40e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -476,7 +574,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -710,8 +808,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 70}
-  m_SizeDelta: {x: 433.45135, y: 107.725525}
+  m_AnchoredPosition: {x: 0.000015259, y: -5}
+  m_SizeDelta: {x: 216.72565, y: 107.725525}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &269150287
 MonoBehaviour:
@@ -733,7 +831,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_NormalColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.49803922}
     m_HighlightedColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.2627451}
     m_PressedColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
     m_SelectedColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 0.31764707}
@@ -781,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -840,8 +938,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -37.24}
-  m_SizeDelta: {x: 0, y: 74.47804}
+  m_AnchoredPosition: {x: 0, y: -42.9}
+  m_SizeDelta: {x: 0, y: 63.156357}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &299082215
 MonoBehaviour:
@@ -868,8 +966,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6419accb777ab754a81cbc6b34b9ef92, type: 2}
-  m_sharedMaterial: {fileID: 4071589071042397143, guid: 6419accb777ab754a81cbc6b34b9ef92, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 22c6fcb6cdcf3284998fb851fd43be42, type: 2}
+  m_sharedMaterial: {fileID: 624685743529200363, guid: 22c6fcb6cdcf3284998fb851fd43be42, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -977,7 +1075,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 160.75}
+  m_AnchoredPosition: {x: 0, y: 155}
   m_SizeDelta: {x: 946.1354, y: 27.503693}
   m_Pivot: {x: 0.5, y: 0.50000006}
 --- !u!114 &515052757
@@ -1000,7 +1098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Who has what it takes to take home the bread?
+  m_text: The 2 player competitive game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a114490dd1ea59d44a5a9caa6fa81251, type: 2}
   m_sharedMaterial: {fileID: 4071589071042397143, guid: a114490dd1ea59d44a5a9caa6fa81251, type: 2}
@@ -1009,8 +1107,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4281940479
+  m_fontColor: {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1196,8 +1294,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 433.45135, y: 107.725525}
+  m_AnchoredPosition: {x: 0, y: -147}
+  m_SizeDelta: {x: 287.41718, y: 79.909485}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &760629890
 MonoBehaviour:
@@ -1219,7 +1317,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_NormalColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.49803922}
     m_HighlightedColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.2627451}
     m_PressedColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
     m_SelectedColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 0.31764707}
@@ -1267,7 +1365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1275,7 +1373,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1424,8 +1522,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4294948655
+  m_fontColor: {r: 0.18396229, g: 0.71668226, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1522,11 +1620,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 77239914}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 197}
+  m_AnchoredPosition: {x: 0, y: 251}
   m_SizeDelta: {x: 946.1354, y: 100}
   m_Pivot: {x: 0.5, y: 0.50000006}
 --- !u!114 &924890765
@@ -1582,7 +1680,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 5
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1660,8 +1758,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -1.4000015}
+  m_SizeDelta: {x: 0, y: -12.420113}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &938563700
 MonoBehaviour:
@@ -1687,8 +1785,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6419accb777ab754a81cbc6b34b9ef92, type: 2}
-  m_sharedMaterial: {fileID: 4071589071042397143, guid: 6419accb777ab754a81cbc6b34b9ef92, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 22c6fcb6cdcf3284998fb851fd43be42, type: 2}
+  m_sharedMaterial: {fileID: 624685743529200363, guid: 22c6fcb6cdcf3284998fb851fd43be42, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1823,7 +1921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 188f59eeea1aa484a8512aec445cda78, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f70190b3d34f03d458ed7d97273d94d8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1871,12 +1969,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 77239914}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0019226, y: -21.3}
-  m_SizeDelta: {x: 946.13153, y: 290.536}
+  m_AnchoredPosition: {x: -0.0019226, y: 1.8}
+  m_SizeDelta: {x: 946.13153, y: 398.44885}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1274886814
 MonoBehaviour:
@@ -1898,33 +1996,47 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'There are 3 rules
+  m_text: 'You take turns placing cells on your half of the board (VS either a friend
+    or an AI)
 
-    1. you tell no one about this
+    Your aim is to have the greatest number of living cells after
+    the simulation finishes.
 
-    2. or i will
-    kill you
+    How the rules of the game work:
 
-    3. thanks.
+    1. A new cell
+    is brought to life if it has exactly 3 living neighbours, and will take on the
+    team''s colour who has the majority of parents. e.g. if 2 red cells and 1 blue
+    cell are the parents, the child will come out red.
 
-    Love from santa.'
+    2. Any cell with less
+    than 2 neighbours or greater than 3 neighbours dies, and the rest survive into
+    the next round.
+
+    This repeats until the set number of rounds are finished.
+    Who ever has the most living cells by the end is the winner.
+
+    You can also
+    place pre-designed patterns during your turn but pressing the "Patterns" button,
+    this shows you some very cleverly designed structures from the history of conways
+    game of life, along with a short description and credit to it''s creators. '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 56d0045c23dcd7c4dba31e920d7670ed, type: 2}
-  m_sharedMaterial: {fileID: 624685743529200363, guid: 56d0045c23dcd7c4dba31e920d7670ed, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4279042293
+  m_fontColor: {r: 0.9622642, g: 0, b: 0.04939953, a: 1}
   m_enableVertexGradient: 0
-  m_colorMode: 3
+  m_colorMode: 0
   m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+    topLeft: {r: 0, g: 0.16466069, b: 1, a: 1}
+    topRight: {r: 0, g: 0.16466069, b: 1, a: 1}
+    bottomLeft: {r: 0, g: 0.16466069, b: 1, a: 1}
+    bottomRight: {r: 0, g: 0.16466069, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
@@ -1934,8 +2046,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 22.82
+  m_fontSizeBase: 22.82
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1983,4 +2095,79 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274886812}
+  m_CullTransparentMesh: 0
+--- !u!1 &1748376886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1748376887}
+  - component: {fileID: 1748376889}
+  - component: {fileID: 1748376888}
+  m_Layer: 5
+  m_Name: ExplainTextBG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1748376887
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748376886}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 77239914}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.00045778987, y: 1.7878}
+  m_SizeDelta: {x: 946.12866, y: 398.42447}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1748376888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748376886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 1, b: 0.980212, a: 0.6509804}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1748376889
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748376886}
   m_CullTransparentMesh: 0

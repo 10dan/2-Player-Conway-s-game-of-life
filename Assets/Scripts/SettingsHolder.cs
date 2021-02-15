@@ -12,9 +12,9 @@ public static class SettingsHolder {
     public static bool patternSelected = false;
     public static int[,] patternData;
 
-    public static bool AIEnabled = false;
+    public static bool AIEnabled = true;
     public static int AIDifficulty = 10;
-    public static float TimeBetweenCycles = 0.1f;
+    public static float TimeBetweenCycles = 0.13f;
     public static int NumberOfCycles = 30;
     public static int BoardHeight = 10;
     public static bool WrapAround = true;
