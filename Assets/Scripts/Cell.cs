@@ -11,6 +11,11 @@ public class Cell : MonoBehaviour {
     public bool selected = false; //Is the player hovering this cell?
     public Vector2Int pos; //Holds the x,y index of the cell.
     [SerializeField] Material[] cols = null; //Holds the possible colours of cells.
+    AudioSource audio;
+
+    private void Start() {
+        audio = GetComponent<AudioSource>();
+    }
 
     private void Update() {
         UpdateColour();
@@ -18,10 +23,18 @@ public class Cell : MonoBehaviour {
 
     public void PlayDeathFX(CellState prevState) {
         float scalingFactor = 0.5f; //How many times smaller the particles will be compared to parent.
-        if(prevState == CellState.Alive1) {
+        //Set audio souce to random pitch so it doesnt sound too samey.
+        float shift = 0.8f;
+        float shift2 = 0.5f;
+        audio.pitch = 1 + (shift * (UnityEngine.Random.value) - shift / 2f);
+        audio.volume = 0.5f + (shift2 * (UnityEngine.Random.value) - shift2 / 2f);
+
+        if (prevState == CellState.Alive1) {
             GetComponentInChildren<ParticleSystemRenderer>().material = cols[6];
+            audio.Play(); //Make death fx and noise.
         } else {
             GetComponentInChildren<ParticleSystemRenderer>().material = cols[7];
+            audio.Play();
         }
         GetComponentInChildren<ParticleSystem>().transform.localScale = new Vector3
             (this.transform.localScale.x * scalingFactor, this.transform.localScale.y * scalingFactor, this.transform.localScale.z * scalingFactor);

@@ -64,8 +64,9 @@ public class SettingsFunctions : MonoBehaviour {
 
         //Do the same this but with text inputs.
         foreach (TMP_InputField t in gameObject.GetComponentsInChildren<TMP_InputField>()) {
+            //make the settings screen reflect the current settings.
             if (t.name == "diff_input") {
-                var isNumeric = int.TryParse(t.text, out int n) ? n : 3;
+                var isNumeric = int.TryParse(t.text, out int n) ? n : 3; //Try to get it, otherwise set to defult value of 3.
                 SettingsHolder.AIDifficulty = n;
             }
             if (t.name == "time_input") {
