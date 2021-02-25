@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BoardBehavior : MonoBehaviour {
     [SerializeField] GameObject cell = null; //Cell prefab.
+    [SerializeField] GameObject loadingScreen = null;
 
     //Structure that will store cells.
     public static Cell[,] cells;
@@ -28,8 +29,9 @@ public class BoardBehavior : MonoBehaviour {
         if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             CheckForCellSelection();
         }
-
+        CheckLoading();
     }
+
     IEnumerator ExecuteSimulations() {
         SettingsHolder.gameState = SettingsHolder.GameStates.Playing;
         for (int i = 0; i < SettingsHolder.NumberOfCycles; i++) {
@@ -93,6 +95,18 @@ public class BoardBehavior : MonoBehaviour {
 
     }
 
+    private bool shouldShow_loading = false;
+    private bool isShow_loading = false;
+    private void CheckLoading() {
+        if (shouldShow_loading) {
+            loadingScreen.SetActive(true);
+            isShow_loading = true;
+        } else {
+            loadingScreen.SetActive(false);
+            isShow_loading = false;
+        }
+    }
+
     private void RunAISelection() {
         if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             GameObject selected = RayCastScreen();
@@ -115,7 +129,7 @@ public class BoardBehavior : MonoBehaviour {
                             if (Input.GetMouseButtonDown(0)) {
                                 SettingsHolder.patternSelected = false;
                                 int livingCellsInPattern = 0; //Give AI this many times to have their go.
-                                for (int x = 0; x < pattern.GetLength(0); x++) {
+                                for (int x = 0; x < pattern.GetLength(0); x++) { //Count how many living cells in selected pattern.
                                     for (int y = pattern.GetLength(1) - 1; y >= 0; y--) {
                                         int cx = p.x + x; //Current x 
                                         int cy = p.y - y; //Current y
@@ -128,9 +142,7 @@ public class BoardBehavior : MonoBehaviour {
                                     }
                                 }
                                 if (SettingsHolder.AIEnabled) {
-                                    for (int i = 0; i < livingCellsInPattern; i++) {
-                                        ai.PredictNextMove(cells);
-                                    }
+                                    StartCoroutine(SendToAi(livingCellsInPattern));
                                 }
                             }
                         }
@@ -139,17 +151,15 @@ public class BoardBehavior : MonoBehaviour {
                         }
 
                     } else { //No pattern selected, only placing one cell.
-
                         if (p.x < SettingsHolder.BoardHeight && SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
                             if (Input.GetMouseButtonDown(0)) {
-
                                 if (c.state != Cell.CellState.Dead) {
                                     c.state = Cell.CellState.Dead;
                                 } else {
                                     c.state = Cell.CellState.Alive1;
                                 }
                                 if (SettingsHolder.AIEnabled) {
-                                    ai.PredictNextMove(cells);
+                                    StartCoroutine(SendToAi(1));
                                 }
                             }
                             c.selected = true; //Allows cell to change colour to "selected color".
@@ -159,7 +169,19 @@ public class BoardBehavior : MonoBehaviour {
             }
         }
     }
-
+    IEnumerator SendToAi(int numCells) {
+        if (numCells > 1 || SettingsHolder.BoardHeight > 11 || SettingsHolder.AIDifficulty > 20) {
+            shouldShow_loading = true;
+        }
+        while (shouldShow_loading == true && isShow_loading == false) {
+            yield return new WaitForSeconds(0.1f);
+            SendToAi(numCells);
+        }
+        for (int i = 0; i < numCells; i++) {
+            ai.PredictNextMove(cells);
+        }
+        shouldShow_loading = false;
+    }
     private void RunHotseatSelection() {
         if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             GameObject selected = RayCastScreen();
@@ -207,7 +229,7 @@ public class BoardBehavior : MonoBehaviour {
                                 }
                             }
                         } else {//Player 2 turn.
-                            if ((endX <= SettingsHolder.BoardHeight*2) && (endY >= 0)) {
+                            if ((endX <= SettingsHolder.BoardHeight * 2) && (endY >= 0)) {
                                 for (int x = p.x; x <= endX; x++) {
                                     for (int y = p.y; y >= endY; y--) {
                                         cells[x, y].selected = true;
@@ -292,7 +314,6 @@ public class BoardBehavior : MonoBehaviour {
             }
         }
     }
-
 
     private GameObject RayCastScreen() {
         Ray ray;

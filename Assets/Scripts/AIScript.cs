@@ -6,7 +6,10 @@ using UnityEngine;
 public class AIScript {
     private static int[,] board;
     private static int w, h;
+    public Boolean isThinking = false;
     public void PredictNextMove(Cell[,] cells) {
+        //Allow the other scripts know if the AI is thinking.
+        isThinking = true;
 
         //First convert the cells into int array to make more efficient.
         w = cells.GetLength(0);
@@ -57,5 +60,7 @@ public class AIScript {
         if (cells[maxX, maxY].state != Cell.CellState.Alive1) {
             cells[maxX, maxY].state = Cell.CellState.Alive2;
         }
+        //Disable loading message.
+        isThinking = false;
     }
 }
