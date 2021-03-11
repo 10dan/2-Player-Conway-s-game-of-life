@@ -42,16 +42,32 @@ public class AIScript {
                 if (finalResult[x, y] > finalResult[maxX, maxY]) {
                     maxX = x;
                     maxY = y;
-                } 
-                if(finalResult[maxX, maxY] == 0) {
+                }
+                if (finalResult[maxX, maxY] == 0) {
                     int newX = w / 2;
                     int newY = 0;
                     int count = 0; //Make sure it doesnt get in an infinite loop, limit number of iterations.
-                    while ((cells[newX, newY].state != Cell.CellState.Dead)&&(count < 20)) {
+                    //While the cell we are looking at is currently occupied.
+                    while ((cells[newX, newY].state != Cell.CellState.Dead) && (count < SettingsHolder.AIDifficulty*5)) {
+                        //Pick a random spot and hope it's empty.
                         newX = (int)Mathf.Round(UnityEngine.Random.Range(w / 2, w));
                         newY = (int)Mathf.Round(UnityEngine.Random.Range(0, h));
+                        //This improves the AI, reduces risk of bad guesses. (better to place near live cells)
+                        try {
+                            if ( //If any of the surrounding cells are not dead & the selected cell is dead.
+                                cells[newX - 1, newY].state != Cell.CellState.Dead ||
+                                cells[newX + 1, newY].state != Cell.CellState.Dead ||
+                                cells[newX, newY - 1].state != Cell.CellState.Dead ||
+                                cells[newX, newY + 1].state != Cell.CellState.Dead &&
+                                cells[newX, newY].state == Cell.CellState.Dead) {
+                                break;
+                            }
+                        } catch (Exception e) {
+
+                        }
                         count++;
                     }
+
                     maxX = newX;
                     maxY = newY;
                 }
