@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BoardBehavior : MonoBehaviour {
     [SerializeField] GameObject cell = null; //Cell prefab.
     [SerializeField] GameObject loadingScreen = null;
+    [SerializeField] GameObject winnerText = null;
+    [SerializeField] GameObject[] winFXs = new GameObject[4];
 
     //Structure that will store cells.
     public static Cell[,] cells;
@@ -38,7 +41,39 @@ public class BoardBehavior : MonoBehaviour {
             yield return new WaitForSeconds(SettingsHolder.TimeBetweenCycles);
             BoardConverter.UpdateCells(cells);
         }
+        //Now we pick a winner and show on screen
+        PickWinner();
+
         SettingsHolder.gameState = SettingsHolder.GameStates.Planning;
+    }
+    private void PickWinner() {
+        //Now all the generations are over, lets decide a winner.
+        int num_p1 = BoardConverter.CountCells(BoardConverter.ConvertToInt(cells), 1);
+        int num_p2 = BoardConverter.CountCells(BoardConverter.ConvertToInt(cells), 2);
+        if (num_p1 == num_p2) { //Draw
+            winnerText.SetActive(true);
+            winnerText.GetComponent<TextMeshProUGUI>().color = Color.yellow;
+            winnerText.GetComponent<TextMeshProUGUI>().text = "ITS A DRAW!!!";
+        } else if (num_p1 > num_p2) { //Player 1 wins
+            winnerText.SetActive(true);
+            winnerText.GetComponent<TextMeshProUGUI>().color = Color.blue;
+            winnerText.GetComponent<TextMeshProUGUI>().text = "PLAYER ONE WINS!!";
+            winFXs[2].GetComponent<ParticleSystem>().Play();
+            winFXs[3].GetComponent<ParticleSystem>().Play();
+        } else { //Player 2 wins
+            winnerText.SetActive(true);
+            winnerText.GetComponent<TextMeshProUGUI>().color = Color.red;
+            winnerText.GetComponent<TextMeshProUGUI>().text = "PLAYER TWO WINS!!";
+            winFXs[0].GetComponent<ParticleSystem>().Play();
+            winFXs[1].GetComponent<ParticleSystem>().Play();
+        }
+        //Hide the win text after a number of seconds.
+        StartCoroutine(HideWinScreen(3));
+    }
+
+    IEnumerator HideWinScreen(int waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        winnerText.SetActive(false);
     }
 
     private void CheckForInputs() {
@@ -98,6 +133,7 @@ public class BoardBehavior : MonoBehaviour {
     private bool shouldShow_loading = false;
     private bool isShow_loading = false;
     private void CheckLoading() {
+        //Check if it should be showing the "ai loading screen"
         if (shouldShow_loading) {
             loadingScreen.SetActive(true);
             isShow_loading = true;
@@ -173,6 +209,7 @@ public class BoardBehavior : MonoBehaviour {
         if (numCells > 1 || SettingsHolder.BoardHeight > 11 || SettingsHolder.AIDifficulty > 20) {
             shouldShow_loading = true;
         }
+        //Show the "AI IS THINKING" screen while ai thinks.
         while (shouldShow_loading == true && isShow_loading == false) {
             yield return new WaitForSeconds(0.1f);
             SendToAi(numCells);
@@ -229,7 +266,7 @@ public class BoardBehavior : MonoBehaviour {
                                 }
                             }
                         } else {//Player 2 turn.
-                            if ((endX <= SettingsHolder.BoardHeight * 2) && (endY >= 0)) {
+                            if ((endX <= SettingsHolder.BoardHeight * 2) && (endX > SettingsHolder.BoardHeight) && (endY >= 0)) {
                                 for (int x = p.x; x <= endX; x++) {
                                     for (int y = p.y; y >= endY; y--) {
                                         cells[x, y].selected = true;
