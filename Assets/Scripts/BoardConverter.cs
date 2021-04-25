@@ -20,21 +20,25 @@ public class BoardConverter {
     }
 
     public static int[,] PredictNextBoard(int[,] copy) {
+        //Assign wraparound here as this is only called once.
         wrapAround = SettingsHolder.WrapAround;
         int w = copy.GetLength(0);
         int h = copy.GetLength(1);
+        //Clone the array so we have somwhere to record changes.
         int[,] nextBoard = copy.Clone() as int[,];
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 Vector2Int count = CountNeighbours(copy, x, y);
                 int sum = count.x + count.y;
+                //If the cells is unoccupied and has 3 neighbours.
                 if (nextBoard[x, y] == 0 && sum == 3) {
                     if (count.x > count.y) {
+                        //birth it to player 1.
                         nextBoard[x, y] = 1;
-                    } else {
+                    } else { //Or player 2.
                         nextBoard[x, y] = 2;
                     }
-                }
+                } //Kill it if its lonely or overpopulated.
                 if (sum < 2 || sum > 3) {
                     nextBoard[x, y] = 0;
                 }
@@ -47,10 +51,12 @@ public class BoardConverter {
     public static Vector2Int CountNeighbours(int[,] boardIn, int x, int y) {
         int w = boardIn.GetLength(0);
         int h = boardIn.GetLength(1);
-        int value1 = 0;
-        int value2 = 0;
+        int value1 = 0; //Count player 1 neighbouring cells.
+        int value2 = 0; //And player 2.
         for (var j = -1; j <= 1; j++) {
+            //If we are looking off the side of the map & we dont want to wrap around continue.
             if (!wrapAround && y + j < 0 || y + j >= h) continue;
+            //Otherwise we set the y1 coordinate.
             int y1 = (y + j + h) % h;
             for (var i = -1; i <= 1; i++) {
                 if (!wrapAround && x + i < 0 || x + i >= w) continue;
@@ -62,6 +68,7 @@ public class BoardConverter {
                 }
             }
         }
+        //If the cell we are looking at is not dead, then subtract 1 to avoid counting it.
         if (boardIn[x, y] == 1) {
             value1--;
         }
@@ -75,6 +82,7 @@ public class BoardConverter {
     public static int[,] ConvertToInt(Cell[,] cells) {
         int w = cells.GetLength(0);
         int h = cells.GetLength(1);
+        //Create 2d int array with same dimensions
         int[,] converted = new int[w, h];
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {

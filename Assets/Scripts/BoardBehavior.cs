@@ -345,7 +345,8 @@ public class BoardBehavior : MonoBehaviour {
         float d = boardSize.y / SettingsHolder.BoardHeight; //Distance between cells
         for (int x = 0; x < SettingsHolder.BoardHeight * 2; x++) {
             for (int y = 0; y < SettingsHolder.BoardHeight; y++) {
-                GameObject createdCell = Instantiate(cell, new Vector3(d / 2 + x * d, d / 2 + y * d, 0f), Quaternion.identity);
+                GameObject createdCell = Instantiate(cell, new Vector3
+                    (d / 2 + x * d, d / 2 + y * d, 0f), Quaternion.identity);
                 cells[x, y] = createdCell.GetComponent<Cell>();
                 cells[x, y].pos = new Vector2Int(x, y);
             }

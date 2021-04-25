@@ -12,11 +12,11 @@ public static class SettingsHolder {
     public static bool patternSelected = false;
     public static int[,] patternData;
 
-    public static bool AIEnabled = true;
-    public static int AIDifficulty = 30;
-    public static float TimeBetweenCycles = 0.13f;
-    public static int NumberOfCycles = 30;
-    public static int BoardHeight = 20;
+    public static bool AIEnabled = false;
+    public static int AIDifficulty = 3;
+    public static float TimeBetweenCycles = 0.3f;
+    public static int NumberOfCycles = 5;
+    public static int BoardHeight = 6;
     public static bool WrapAround = true;
 
     public static bool playerOneTurn = true;
