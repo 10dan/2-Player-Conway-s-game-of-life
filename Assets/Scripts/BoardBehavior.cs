@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 
 public class BoardBehavior : MonoBehaviour {
+    //Links to unity objects.
     [SerializeField] GameObject cell = null; //Cell prefab.
     [SerializeField] GameObject loadingScreen = null;
     [SerializeField] GameObject winnerText = null;
@@ -27,7 +28,9 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     private void Update() {
+        //Check if player places a cell
         CheckForInputs();
+        //If they change the board size, update visual display to match new size.
         if (SettingsHolder.boardSizeChanged) PlaceCells();
         if (SettingsHolder.gameState == SettingsHolder.GameStates.Planning) {
             CheckForCellSelection();
@@ -37,6 +40,7 @@ public class BoardBehavior : MonoBehaviour {
 
     IEnumerator ExecuteSimulations() {
         SettingsHolder.gameState = SettingsHolder.GameStates.Playing;
+        //Update the board x number of times according to set rules.
         for (int i = 0; i < SettingsHolder.NumberOfCycles; i++) {
             yield return new WaitForSeconds(SettingsHolder.TimeBetweenCycles);
             BoardConverter.UpdateCells(cells);
@@ -72,15 +76,17 @@ public class BoardBehavior : MonoBehaviour {
     }
 
     IEnumerator HideWinScreen(int waitTime) {
+        //Hides the win screen after "waitTime" seconds.
         yield return new WaitForSeconds(waitTime);
         winnerText.SetActive(false);
     }
 
     private void CheckForInputs() {
-        if (Input.GetKeyDown(KeyCode.E)) {
+        //Keyboard shortcuts:
+        if (Input.GetKeyDown(KeyCode.E)) {//Start game.
             StartCoroutine(ExecuteSimulations());
         }
-        if (Input.GetKeyDown(KeyCode.R)) {
+        if (Input.GetKeyDown(KeyCode.R)) {//Stop game, allow placement of cells.
             SettingsHolder.gameState = SettingsHolder.GameStates.Planning;
         }
         //Press C to clear.
@@ -90,13 +96,14 @@ public class BoardBehavior : MonoBehaviour {
                 c.state = Cell.CellState.Dead;
             }
         }
-        if (SettingsHolder.playButtonPressed) {
+        if (SettingsHolder.playButtonPressed) { //If play button pressed.
             SettingsHolder.playButtonPressed = false;
             StartCoroutine(ExecuteSimulations());
         }
     }
 
     public void LoadCellsFromSettings() {
+        //If they player is continuing an old game, load it from settings.
         List<string> settings = SettingsHolder.ReadSettings();
         List<string> boardLines = new List<string>();
         foreach (string line in settings) {
@@ -206,6 +213,7 @@ public class BoardBehavior : MonoBehaviour {
         }
     }
     IEnumerator SendToAi(int numCells) {
+        //Using magic numbers to fine tune when the "loading" screen should show.
         if (numCells > 1 || SettingsHolder.BoardHeight > 11 || SettingsHolder.AIDifficulty > 20) {
             shouldShow_loading = true;
         }
@@ -214,6 +222,7 @@ public class BoardBehavior : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
             SendToAi(numCells);
         }
+        //Give ai as many turns to place cells as are living cells in the pattern just placed by player 1.
         for (int i = 0; i < numCells; i++) {
             ai.PredictNextMove(cells);
         }
@@ -249,14 +258,15 @@ public class BoardBehavior : MonoBehaviour {
                                         cells[x, y].selected = true;
                                     }
                                 }
-                                if (Input.GetMouseButtonDown(0)) {
-                                    SettingsHolder.patternSelected = false;
+                                if (Input.GetMouseButtonDown(0)) { //If they click.
+                                    SettingsHolder.patternSelected = false; //Pattern is about to be palced, so toggle this off.
+                                    //Go through each cell starting from the mouse location and overwrite with pattern.
                                     for (int x = 0; x < pattern.GetLength(0); x++) {
                                         for (int y = pattern.GetLength(1) - 1; y >= 0; y--) {
                                             int cx = p.x + x; //Current x 
                                             int cy = p.y - y; //Current y
                                             if (pattern[x, y] == 1) {
-                                                cells[cx, cy].state = activePlayer;
+                                                cells[cx, cy].state = activePlayer; //Give cell to player who's turn it is.
                                             } else {
                                                 cells[cx, cy].state = Cell.CellState.Dead;
                                             }
@@ -266,7 +276,9 @@ public class BoardBehavior : MonoBehaviour {
                                 }
                             }
                         } else {//Player 2 turn.
+                            //Force them to place on right hand side.
                             if ((endX <= SettingsHolder.BoardHeight * 2) && (endX > SettingsHolder.BoardHeight) && (endY >= 0)) {
+                                //Highlight all cells that will be changed if they place pattern.
                                 for (int x = p.x; x <= endX; x++) {
                                     for (int y = p.y; y >= endY; y--) {
                                         cells[x, y].selected = true;
@@ -356,9 +368,11 @@ public class BoardBehavior : MonoBehaviour {
     private GameObject RayCastScreen() {
         Ray ray;
         RaycastHit hit;
-        GameObject objectHit = null;
+        GameObject objectHit = null; //To store object hit.
+        //Set ray to come from camera towards mouse pointer.
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit)) {
+        if (Physics.Raycast(ray, out hit)) { //if we hit somthing.
+            //Get the game object connected to collider hit.
             objectHit = hit.collider.gameObject;
         }
         return objectHit;

@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour {
         audio = GetComponent<AudioSource>();
     }
 
+    //When how to button is pressed, unhide the how to section.
     public void ShowHowTo() {
         mainMenu.SetActive(false);
         howToPage.SetActive(true);

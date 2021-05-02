@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 
 public class ChangeText : MonoBehaviour {
+    //Counts the number of cells belonging to each team and updates a visual count at the top of the screen.
     [SerializeField] GameObject teamOneText;
     [SerializeField] GameObject teamTwoText;
     [SerializeField] GameObject gameState;

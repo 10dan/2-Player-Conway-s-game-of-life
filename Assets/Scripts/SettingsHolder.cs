@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class SettingsHolder {
-
+    //Static class that remains active even through scene changes.
     private static string path = @"Assets/settings.txt";
 
+    //Holds all setting values.
     public static bool playButtonPressed = false;
     public static bool boardSizeChanged = false;
     public static bool patternSelected = false;
@@ -15,7 +16,7 @@ public static class SettingsHolder {
     public static bool AIEnabled = false;
     public static int AIDifficulty = 3;
     public static float TimeBetweenCycles = 0.3f;
-    public static int NumberOfCycles = 5;
+    public static int NumberOfCycles = 20;
     public static int BoardHeight = 6;
     public static bool WrapAround = true;
 
@@ -26,6 +27,7 @@ public static class SettingsHolder {
 
     public static Cell[] cells;
 
+    //Writes the current board state to a text file. used to save the game.
     public static void UpdateSettingsBoard(Cell[,] cellBoard) {
         int[,] cells = BoardConverter.ConvertToInt(cellBoard);
         List<string> lines = ReadSettings();
@@ -59,12 +61,6 @@ public static class SettingsHolder {
         file.Close();
         return lines;
     }
-
-
-
-
-
-
 
     //Legacy method for loading settings.
     public static int GetSetting(string settingName) {

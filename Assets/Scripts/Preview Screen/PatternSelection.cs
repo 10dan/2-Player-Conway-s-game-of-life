@@ -38,6 +38,7 @@ public class PatternSelection : MonoBehaviour {
         Vector2Int dims = GetDimensions(patternPath); //Pattern dimensions
         int[,] patternDesc = new int[dims.x, dims.y];
 
+        //Get contents of the .txt file of pattern.
         StreamReader sr = new StreamReader(patternPath);
         string fileContents = sr.ReadToEnd();
         sr.Close();
@@ -45,12 +46,12 @@ public class PatternSelection : MonoBehaviour {
 
         string desc = "";
 
-        //Go through again to populate cell array.
+        //Go through again to populate int array.
         int x = 0;
         int y = dims.y - 1;
         foreach (string line in lines) {
             if (line.Length > 0) {
-                if (line.Substring(0, 1) == "!") {
+                if (line.Substring(0, 1) == "!") { //Lines starting with a "!" are description lines.
                     desc += line + "\n";
                 } else {
                     foreach (char c in line) {
@@ -77,6 +78,7 @@ public class PatternSelection : MonoBehaviour {
         }*/
     }
 
+    //Returns the width and height of a .txt pattern file.
     private Vector2Int GetDimensions(string p) {
         StreamReader sr = new StreamReader(p);
         string fileContents = sr.ReadToEnd();

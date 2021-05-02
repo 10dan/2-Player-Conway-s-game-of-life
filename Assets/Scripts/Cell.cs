@@ -44,11 +44,13 @@ public class Cell : MonoBehaviour {
     private void UpdateColour() {
         Material m;
         switch (state) {
+            //If the cell state means it belongs to player 1.
             case CellState.Alive1:
+                //Check if it is being hovered over by the mouse.
                 if (selected) {
-                    m = cols[1];
+                    m = cols[1]; //Set to a slightly lighter blue.
                 } else {
-                    m = cols[0];
+                    m = cols[0]; //Otherwise leave it its default blue colour.
                 }
                 gameObject.GetComponent<MeshRenderer>().material = m;
                 break;

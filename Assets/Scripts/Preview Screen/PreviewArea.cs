@@ -7,15 +7,15 @@ using UnityEngine.UI;
 
 public class PreviewArea : MonoBehaviour {
 
-    [SerializeField] GameObject cellPrefab = null;
-    [SerializeField] GameObject descTextGO = null;
+    [SerializeField] GameObject cellPrefab = null; //Link to cell prefab
+    [SerializeField] GameObject descTextGO = null; //Link to description area to change in future.
     Cell[,] cells;
-    static int[,] cellData = new int[5, 5];
+    static int[,] cellData = new int[5, 5]; //Will hold data for preview cell area.
     static string descText = "";
-    List<GameObject> cellsCreated;
+    List<GameObject> cellsCreated; //Store list of created cells, makes it easier to clear when new button pressed.
     static bool boardUpdated = false;
-    float bw, bh;
-    Transform t;
+    float bw, bh; //Board height/width of the preview area.
+    Transform t; //Transform of the board.
 
     private void Start() {
         int[,] initPat = new int[5, 5];
@@ -44,13 +44,14 @@ public class PreviewArea : MonoBehaviour {
             int w = cellData.GetLength(0);
             int h = cellData.GetLength(1);
             cells = new Cell[w, h];
-            float cellScaleY = (bh / h) / 1.2f;
+            float cellScaleY = (bh / h) / 1.2f; //Give small gap between cells.
             float cellScaleX = (bw / w) / 1.2f;
             Vector3 cellScaleVector = new Vector3(cellScaleX, cellScaleY, 1f);
             float dx = bw / w; //Distance between cells horz
             float dy = bh / h; //Dist vert.
             float bx = t.localPosition.x;
             float by = t.localPosition.y;
+            //Create preview of selected cell.
             for (int x = 0; x < w; x++) {
                 for (int y = 0; y < h; y++) {
                     float xpos = (bx - bw / 2 + x * dx) + dx / 2;
@@ -67,10 +68,12 @@ public class PreviewArea : MonoBehaviour {
             }
         }
     }
+    //Allows other scripts to read cell data.
     public static int[,] GetCellData() {
         return cellData;
     }
 
+    //Updates the pattern that should be displayed in preview area. (Public method)
     public static void SetPattern(int[,] pat, string desc) {
         cellData = pat;
         descText = desc;

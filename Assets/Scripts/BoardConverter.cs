@@ -6,6 +6,7 @@ public class BoardConverter {
     private static bool wrapAround = true;
 
     public static int CountCells(int[,] copy, int cellType) {
+        //Counts the number of cells on the board with cellType.
         int w = copy.GetLength(0);
         int h = copy.GetLength(1);
         int results = 0;
@@ -98,7 +99,7 @@ public class BoardConverter {
         return converted;
     }
 
-    //For debug
+    //For debug prints board in console.
     public static void PrintBoard(int[,] whichBoard) {
         int w = whichBoard.GetLength(0);
         int h = whichBoard.GetLength(1);
@@ -112,6 +113,7 @@ public class BoardConverter {
         }
     }
 
+    //Handles actually changing the cell array to the new state.
     public static void UpdateCells(Cell[,] cells) {
         int w = cells.GetLength(0);
         int h = cells.GetLength(1);
@@ -120,6 +122,7 @@ public class BoardConverter {
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 if (nextBoard[x, y] == 0) {
+                    //If current cell in the next board state is not already dead in this one, then play deathFX.
                     if (cells[x, y].state != Cell.CellState.Dead) {
                         cells[x, y].PlayDeathFX(cells[x,y].state); //Play death particle. (pass it it's prev state to set colour)
                     }

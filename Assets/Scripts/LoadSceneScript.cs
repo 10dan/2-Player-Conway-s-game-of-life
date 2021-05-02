@@ -7,10 +7,7 @@ using UnityEngine.UI;
 
 public class LoadSceneScript : MonoBehaviour {
     //Handles button presses and scene loading.
-
-
-
-    public void LoadScene(int sceneIndex) {
+    public void LoadScene(int sceneIndex) { //Load the unity scene with index "sceneIndex"
         SceneManager.LoadScene(sceneIndex);
     }
 
