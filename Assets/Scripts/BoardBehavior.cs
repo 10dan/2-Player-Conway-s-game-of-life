@@ -18,6 +18,7 @@ public class BoardBehavior : MonoBehaviour {
     AIScript ai;
 
     void Start() {
+        Resources.Load("Assets/Resources/settings.txt");
         InitVariables();
         PlaceCells();
         LoadCellsFromSettings();

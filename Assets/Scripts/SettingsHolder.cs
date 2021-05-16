@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class SettingsHolder {
     //Static class that remains active even through scene changes.
-    private static string path = @"Assets/settings.txt";
+    private static string path = "Assets/Resources/settings.txt";
 
     //Holds all setting values.
     public static bool playButtonPressed = false;
@@ -26,7 +26,6 @@ public static class SettingsHolder {
     public static GameStates gameState = GameStates.Planning;
 
     public static Cell[] cells;
-
     //Writes the current board state to a text file. used to save the game.
     public static void UpdateSettingsBoard(Cell[,] cellBoard) {
         int[,] cells = BoardConverter.ConvertToInt(cellBoard);
@@ -55,6 +54,7 @@ public static class SettingsHolder {
         string line;
         List<string> lines = new List<string>();
         System.IO.StreamReader file = new System.IO.StreamReader(path);
+
         while ((line = file.ReadLine()) != null) {
             lines.Add(line);
         }
